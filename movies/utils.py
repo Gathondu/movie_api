@@ -1,6 +1,5 @@
-# return the index where the id lies if present, else false
+# return the movie if there's a movie with the id, else false
 def binarySearch(movies, start, end, id):
-    # check base case
     if start <= end:
         mid = int((start + (end))/2)
         if movies[mid]['id'] == id:

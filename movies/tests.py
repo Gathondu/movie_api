@@ -12,7 +12,7 @@ class MovieTestCase(SimpleTestCase):
         response = self.client.get('/api/v1/movies/')
         data = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(data), 1000)
+        self.assertEqual(data['count'], 1000)
 
     def test_we_get_specific_movie(self):
         response = self.client.get('/api/v1/movies/1')
@@ -29,20 +29,20 @@ class MovieTestCase(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
         # searching ton should get us 8 results of movies with the substring ton
-        self.assertEqual(len(data), 8)
+        self.assertEqual(data['count'], 8)
         # Since we are using a linear search, the 1st item matching this criterion
         # is at index 8
-        self.assertEqual(data[0], self.movies[8])
+        self.assertEqual(data['movies'][0], self.movies[8])
 
     def test_search_for_genre(self):
         response = self.client.get('/api/v1/movies/search?genre=drama')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
         # searching drama should get us 493 results of movies with the genre drama
-        self.assertEqual(len(data), 493)
+        self.assertEqual(data['count'], 493)
         # Since we are using a linear search, the 1st item matching this criterion
         # is at index 0
-        self.assertEqual(data[0], self.movies[0])
+        self.assertEqual(data['movies'][0], self.movies[0])
 
     def test_search_using_wrong_key(self):
         response = self.client.get('/api/v1/movies/search?showing_time=10:18')

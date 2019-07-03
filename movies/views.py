@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from movies.utils import binarySearch, linearSearch
 
 def index(request):
-    return JsonResponse(movies, safe=False)
+    return JsonResponse({ 'count': len(movies), 'movies': movies})
 
 def get_movie(request, movie_id):
     movie = binarySearch(movies, 0, len(movies)-1, movie_id)
@@ -19,4 +19,4 @@ def search(request):
             results.extend(linearSearch(movies, key, query))
         else:
             return JsonResponse({'error': 'You can only search name and genre of a movie.'}, status=400)
-    return JsonResponse(results, safe=False)
+    return JsonResponse({'count': len(results), 'movies': results})

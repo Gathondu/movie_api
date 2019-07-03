@@ -18,8 +18,6 @@ def binarySearch(movies, start, end, id):
 def linearSearch(movies, key, query):
     results = []
     for movie in movies:
-        if key == 'name' and query.lower() in movie.get('name', None).lower():
-            results.append(movie)
-        elif key == 'genre' and query.lower() in movie.get('genre', None).lower():
+        if query.lower() in movie.get(key, None).lower():
             results.append(movie)
     return results

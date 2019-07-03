@@ -13,10 +13,10 @@ def get_movie(request, movie_id):
 
 def search(request):
     results = []
-    for key in request.GET.keys():
-        query = request.GET.get(key, None)
-        if key in ('name', 'genre') and query:
-            results.extend(linearSearch(movies, key, query))
-        else:
-            return JsonResponse({'error': 'You can only search name and genre of a movie.'}, status=400)
+    keys = [key.lower() for key in request.GET.keys() if key.lower() in ('name', 'genre')]
+    if len(keys) == 1:
+        query = request.GET.get(keys[0], None)
+        results.extend(linearSearch(movies, keys[0], query))
+    else:
+        return JsonResponse({'error': 'You can only search name or genre of a movie.'}, status=400)
     return JsonResponse({'count': len(results), 'movies': results})

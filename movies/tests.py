@@ -47,4 +47,4 @@ class MovieTestCase(SimpleTestCase):
     def test_search_using_wrong_key(self):
         response = self.client.get('/api/v1/movies/search?showing_time=10:18')
         self.assertEqual(response.status_code, 400)
-        self.assertJSONEqual(force_text(response.content), {'error': 'You can only search name and genre of a movie.'})
+        self.assertJSONEqual(force_text(response.content), {'error': 'You can only search name or genre of a movie.'})

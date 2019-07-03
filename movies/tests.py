@@ -1,10 +1,10 @@
 import json
 
 from data import movies
-from django.test import TestCase
+from django.test import SimpleTestCase
 from django.utils.encoding import force_text
 
-class MovieTestCase(TestCase):
+class MovieTestCase(SimpleTestCase):
     def setUp(self):
         self.movies = movies
 

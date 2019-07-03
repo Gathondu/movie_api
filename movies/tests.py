@@ -35,4 +35,11 @@ class MovieTestCase(SimpleTestCase):
         self.assertJSONEqual(force_text(data[0]), self.movies[8])
 
     def test_search_for_genre(self):
-        pass
+        response = self.client.get('/api/v1/movies?genre=drama')
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        # searching drama should get us 493 results of movies with the genre drama
+        self.assertEqual(len(data), 8)
+        # Since we are using a linear search, the 1st item matching this criterion
+        # is at index 1
+        self.assertJSONEqual(force_text(data[0]), self.movies[1])

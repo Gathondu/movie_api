@@ -1,2 +1,2 @@
-# movie_api
+# movie api
 A simple api to list movies and query them

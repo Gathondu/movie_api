@@ -25,21 +25,26 @@ class MovieTestCase(SimpleTestCase):
         self.assertJSONEqual(force_text(response.content), {'error': 'No movie with that id'})
 
     def test_search_for_name(self):
-        response = self.client.get('/api/v1/movies?name=ton')
+        response = self.client.get('/api/v1/movies/search?name=ton')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
         # searching ton should get us 8 results of movies with the substring ton
         self.assertEqual(len(data), 8)
         # Since we are using a linear search, the 1st item matching this criterion
         # is at index 8
-        self.assertJSONEqual(force_text(data[0]), self.movies[8])
+        self.assertEqual(data[0], self.movies[8])
 
     def test_search_for_genre(self):
-        response = self.client.get('/api/v1/movies?genre=drama')
+        response = self.client.get('/api/v1/movies/search?genre=drama')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
         # searching drama should get us 493 results of movies with the genre drama
-        self.assertEqual(len(data), 8)
+        self.assertEqual(len(data), 493)
         # Since we are using a linear search, the 1st item matching this criterion
-        # is at index 1
-        self.assertJSONEqual(force_text(data[0]), self.movies[1])
+        # is at index 0
+        self.assertEqual(data[0], self.movies[0])
+
+    def test_search_using_wrong_key(self):
+        response = self.client.get('/api/v1/movies/search?showing_time=10:18')
+        self.assertEqual(response.status_code, 400)
+        self.assertJSONEqual(force_text(response.content), {'error': 'You can only search name and genre of a movie.'})

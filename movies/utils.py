@@ -15,8 +15,11 @@ def binarySearch(movies, start, end, id):
         # element is not present
         return False
 
-def linearSearch(movies, id):
+def linearSearch(movies, key, query):
+    results = []
     for movie in movies:
-        if movie['id'] == id:
-            return movie
-    return False
+        if key == 'name' and query.lower() in movie.get('name', None).lower():
+            results.append(movie)
+        elif key == 'genre' and query.lower() in movie.get('genre', None).lower():
+            results.append(movie)
+    return results
